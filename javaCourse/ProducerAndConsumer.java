@@ -9,28 +9,32 @@ class Manager {                    //notify producer and consumer
 
         if (productNum >= 20) {
             try {
-                wait();
+                wait(); //wait() has to be inside synchronized block
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
+        } else
 
-        productNum++;
-        System.out.println(Thread.currentThread().getName() + "Produced" + productNum);
+            productNum++;
+        System.out.println(Thread.currentThread().getName() + "\tmade\t" + productNum + "th\tproduct");
+        notifyAll();
     }
+
+
 
     public synchronized void minusProduct() {
 
         if (productNum <= 0) {
             try {
-                wait();
+                wait(); //wait() has to be inside synchronized block
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        } else {
+            System.out.println(Thread.currentThread().getName() + "\tused\t" + productNum + "th\tproduct");
+            productNum--;
+            notifyAll();
         }
-        System.out.println(Thread.currentThread().getName() + "Consumed" + productNum);
-        productNum--;
-
     }
 }
 
@@ -70,7 +74,7 @@ class Consumer extends Thread {
         while (true) {
             System.out.println("Consuming...");
             try {
-                Thread.sleep(50);
+                Thread.sleep(200);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -85,10 +89,15 @@ public class ProducerAndConsumer {
         Manager manager = new Manager();
         Producer producer = new Producer(manager);
         Consumer consumer = new Consumer(manager);
+        Consumer consumer2 = new Consumer(manager);
+
         producer.setName("Producer1");
         consumer.setName("Consumer1");
+        consumer2.setName("Consumer2");
+
         producer.start();
         consumer.start();
+        consumer2.start();
 
     }
 
