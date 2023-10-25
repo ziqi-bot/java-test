@@ -1,5 +1,7 @@
 package javaCourse;
 
+import org.junit.Test;
+
 /********** 继承于线程的类可以直接用类的对象启动start，而实现runnable接口的类的对象需要被 new thread（）调用，然后再start **************/
 
 public class threadtest extends Thread {
@@ -37,6 +39,7 @@ public class threadtest extends Thread {
 
         }
     }
+
 
 
     public static void main(String[] args) {

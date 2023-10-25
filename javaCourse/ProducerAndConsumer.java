@@ -20,13 +20,11 @@ class Manager {                    //notify producer and consumer
         notifyAll();
     }
 
-
-
     public synchronized void minusProduct() {
 
         if (productNum <= 0) {
             try {
-                wait(); //wait() has to be inside synchronized block
+                this.wait(); //wait() has to be inside synchronized block, current object or instance can use this wait() and notify() methods
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -51,7 +49,7 @@ class Producer extends Thread {
         while (true) {
             System.out.println("Producing...");
             try {
-                Thread.sleep(50);
+                 Thread.sleep(50);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -61,6 +59,9 @@ class Producer extends Thread {
     }
 }
 
+/**
+ *
+ */
 class Consumer extends Thread {
 
     private Manager manager;
